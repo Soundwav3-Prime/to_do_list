@@ -10,7 +10,11 @@ while True:
     print("\nOptions:")
     print("1 - Add Task")
     print("2 - Edit Task")
+    print("3 - Mark Task as Complete")
+    print("4 - Show Completed tasks")
+    print("5 - Remove Task")
     print("6 - Exit")
+
 
     choice = input("Choose an option: ")
 
