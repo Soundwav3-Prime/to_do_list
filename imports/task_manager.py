@@ -1,5 +1,8 @@
 import json
 
+TASKS_FILE = "tasks.json"
+COMPLETED_FILE = "completed_tasks.json"
+
 def load_tasks(filename):
     """Load tasks from a file in JSON format."""
     try:
@@ -8,16 +11,10 @@ def load_tasks(filename):
     except (FileNotFoundError, json.JSONDecodeError):
         return []
 
-def show_tasks(task_list):
-    """Displays all tasks with details."""
-    print("\nTo-Do List:")
-    if not task_list:
-        print("No tasks available.")
-        return
-
-    for i, task in enumerate(task_list, 1):
-        print(f"{i}. {task['description']} (Due: {task['due']}, Priority: {task['priority']}, Category: {task['category']})")
-
+def save_tasks(filename, task_list):
+    """Save tasks to a file in JSON format."""
+    with open(filename, "w") as file:
+        json.dump(task_list, file, indent=4)
 
 def show_tasks(task_list):
     """Displays all tasks with details."""
@@ -43,7 +40,7 @@ def add_task(task_list):
         "category": category
     }
     task_list.append(new_task)
-    save_tasks("tasks.json", task_list)  # Save immediately
+    save_tasks(TASKS_FILE, task_list)  # Save immediately
     print("✅ Task added successfully!")
 
 def edit_task(task_list):
@@ -61,7 +58,7 @@ def edit_task(task_list):
         task["priority"] = input(f"New priority (leave blank to keep '{task['priority']}'): ") or task["priority"]
         task["category"] = input(f"New category (leave blank to keep '{task['category']}'): ") or task["category"]
 
-        save_tasks("tasks.json", task_list)  # Save after editing
+        save_tasks(TASKS_FILE, task_list)  # Save after editing
         print("✅ Task updated successfully!")
     except ValueError:
         print("❌ Please enter a valid number.")
@@ -73,18 +70,24 @@ def completed_task(task_list, completed_list):
     try:
         task_number = int(input("Enter the task number you completed: ")) - 1
         if task_number < 0 or task_number >= len(task_list):
-            raise IndexError("❌ Task number is out of range.") # Raise an error manually
+            raise IndexError("❌ Task number is out of range.") 
         completed_task = task_list.pop(task_number)
         completed_list.append(completed_task)
-        save_tasks("tasks.json", task_list)
+        save_tasks(TASKS_FILE, task_list)  # Save remaining tasks
+        save_tasks(COMPLETED_FILE, completed_list)  # Save completed tasks
         print(f"✅ Task '{completed_task['description']}' marked as complete!")
     except ValueError:
         print("❌ Please enter a valid number.")
     except IndexError as e:
         print(e)
 
-def show_complete(done_list):
+def load_completed_tasks():
+    """Load completed tasks from file."""
+    return load_tasks(COMPLETED_FILE)
+
+def show_complete():
     """Displays the list of completed tasks."""
+    done_list = load_completed_tasks()
     print("\nCompleted Tasks:")
     if done_list:
         for i, task in enumerate(done_list, 1):
@@ -93,7 +96,7 @@ def show_complete(done_list):
         print("No tasks completed yet.")
 
 def removal(task_list):
-    """Remove tasks in lists"""
+    """Remove tasks from the list."""
     try:
         if task_list:
             task_number = int(input("Enter the task number to remove: ")) -1
@@ -101,11 +104,11 @@ def removal(task_list):
                 raise IndexError("❌ Task number is out of range.")
             
             removed_task = task_list.pop(task_number)
-            save_tasks("tasks.json", task_list)
+            save_tasks(TASKS_FILE, task_list)
             print(f"✅ Task '{removed_task['description']}' removed.")
         else:
-            print ("There are no tasks available to delete. Please add a task")
+            print("There are no tasks available to delete. Please add a task")
     except ValueError:
-        print("Please enter a valid number.")
+        print("❌ Please enter a valid number.")
     except IndexError as e:
         print(e)
