@@ -24,17 +24,17 @@ while True:
         task_manager.edit_task(tasks)
     
     elif choice == "3":
-        task_manager.completed_task(tasks, completed_tasks)  # Corrected
+        task_manager.completed_task(tasks, completed_tasks) 
     
     elif choice == "4":
-        task_manager.show_complete()  # No argument needed
+        task_manager.show_complete() 
     
     elif choice == "5":
         task_manager.removal(tasks)
     
     elif choice == "6":
         task_manager.save_tasks("tasks.json", tasks)
-        task_manager.save_tasks("completed_tasks.json", completed_tasks)  # Save completed tasks
+        task_manager.save_tasks("completed_tasks.json", completed_tasks) 
         print("Goodbye!")
         break
     else:
