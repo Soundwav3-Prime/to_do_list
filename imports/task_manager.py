@@ -46,6 +46,8 @@ def edit_task(task_list):
         task_number = int(input("Enter the task number you want to edit: ")) - 1
         if task_number < 0 or task_number >= len(task_list):
             raise IndexError("❌ Task number is out of range")
+        
+        task = task_list[task_number]
 
         print(f"Editing task: {task['description']}")
         task["description"] = input(f"New description (leave blank to keep '{task['description']}'): ") or task["description"]
@@ -64,14 +66,16 @@ def completed_task(task_list, completed_list):
     """Marks a task as complete and moves it to the completed list."""
     try:
         task_number = int(input("Enter the task number you completed: ")) - 1
-        if 0 <= task_number < len(task_list):
-            completed_task = task_list.pop(task_number)
-            completed_list.append(completed_task)
-            print(f"✅ Task '{completed_task['description']}' marked as complete!")
-        else:
-            print("Invalid task number.")
+        if task_number < 0 or task_number >= len(task_list):
+            raise IndexError("❌ Task number is out of range.") # Raise an error manually
+        completed_task = task_list.pop(task_number)
+        completed_list.append(completed_task)
+        save_tasks("tasks.json", task_list)
+        print(f"✅ Task '{completed_task['description']}' marked as complete!")
     except ValueError:
         print("❌ Please enter a valid number.")
+    except IndexError as e:
+        print(e)
 
 def show_complete(done_list):
     """Displays the list of completed tasks."""
@@ -82,16 +86,20 @@ def show_complete(done_list):
     else:
         print("No tasks completed yet.")
 
-def removal(remove_task):
+def removal(task_list):
     """Remove tasks in lists"""
     try:
-        if remove_task:
-            task_number = int(input("Enter the task number to remove: "))
-            if 1 <= task_number <= len(remove_task):
-                remove_task.pop(task_number - 1)
-            else:
-                print("Invalid task number.")
+        if task_list:
+            task_number = int(input("Enter the task number to remove: ")) -1
+            if task_number < 0 or task_number >= len(task_list):
+                raise IndexError("❌ Task number is out of range.")
+            
+            removed_task = task_list.pop(task_number)
+            save_tasks("tasks.json", task_list)
+            print(f"✅ Task '{removed_task['description']}' removed.")
         else:
             print ("There are no tasks available to delete. Please add a task")
     except ValueError:
         print("Please enter a valid number.")
+    except IndexError as e:
+        print(e)
