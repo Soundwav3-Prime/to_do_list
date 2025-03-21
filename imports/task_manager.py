@@ -44,21 +44,21 @@ def edit_task(task_list):
     """Allow the user to edit an existing task."""
     try:
         task_number = int(input("Enter the task number you want to edit: ")) - 1
-        if 0 <= task_number < len(task_list):
-            task = task_list[task_number]
+        if task_number < 0 or task_number >= len(task_list):
+            raise IndexError("❌ Task number is out of range")
 
-            print(f"Editing task: {task['description']}")
-            task["description"] = input(f"New description (leave blank to keep '{task['description']}'): ") or task["description"]
-            task["due"] = input(f"New due date (leave blank to keep '{task['due']}'): ") or task["due"]
-            task["priority"] = input(f"New priority (leave blank to keep '{task['priority']}'): ") or task["priority"]
-            task["category"] = input(f"New category (leave blank to keep '{task['category']}'): ") or task["category"]
+        print(f"Editing task: {task['description']}")
+        task["description"] = input(f"New description (leave blank to keep '{task['description']}'): ") or task["description"]
+        task["due"] = input(f"New due date (leave blank to keep '{task['due']}'): ") or task["due"]
+        task["priority"] = input(f"New priority (leave blank to keep '{task['priority']}'): ") or task["priority"]
+        task["category"] = input(f"New category (leave blank to keep '{task['category']}'): ") or task["category"]
 
-            save_tasks("tasks.json", task_list)  # Save after editing
-            print("✅ Task updated successfully!")
-        else:
-            print("❌ Invalid task number.")
+        save_tasks("tasks.json", task_list)  # Save after editing
+        print("✅ Task updated successfully!")
     except ValueError:
         print("❌ Please enter a valid number.")
+    except IndexError as e:
+        print(e)
 
 def completed_task(task_list, completed_list):
     """Marks a task as complete and moves it to the completed list."""
