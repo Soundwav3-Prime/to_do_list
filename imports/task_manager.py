@@ -8,10 +8,16 @@ def load_tasks(filename):
     except (FileNotFoundError, json.JSONDecodeError):
         return []
 
-def save_tasks(filename, task_list):
-    """Save tasks to a file in JSON format."""
-    with open(filename, "w") as file:
-        json.dump(task_list, file, indent=4)
+def show_tasks(task_list):
+    """Displays all tasks with details."""
+    print("\nTo-Do List:")
+    if not task_list:
+        print("No tasks available.")
+        return
+
+    for i, task in enumerate(task_list, 1):
+        print(f"{i}. {task['description']} (Due: {task['due']}, Priority: {task['priority']}, Category: {task['category']})")
+
 
 def show_tasks(task_list):
     """Displays all tasks with details."""
