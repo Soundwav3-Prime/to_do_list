@@ -14,28 +14,34 @@ while True:
     print("4 - Show Completed Tasks")
     print("5 - Remove Task")
     print("6 - Exit")
-
-    choice = input("Choose an option: ")
-
-    if choice == "1":
-        task_manager.add_task(tasks)
-    
-    elif choice == "2":
-        task_manager.edit_task(tasks)
-    
-    elif choice == "3":
-        task_manager.completed_task(tasks, completed_tasks) 
-    
-    elif choice == "4":
-        task_manager.show_complete() 
-    
-    elif choice == "5":
-        task_manager.removal(tasks)
-    
-    elif choice == "6":
-        task_manager.save_tasks("tasks.json", tasks)
-        task_manager.save_tasks("completed_tasks.json", completed_tasks) 
-        print("Goodbye!")
-        break
-    else:
-        print("Invalid option. Try again.")
+    try:
+        
+        choice = input("Choose an option: ")
+        if choice <1 or choice >6:
+            print("❌Invalid option. Please choice a number between 1 and 6")
+            continue
+        if choice == "1":
+            task_manager.add_task(tasks)
+        
+        elif choice == "2":
+            task_manager.edit_task(tasks)
+        
+        elif choice == "3":
+            task_manager.completed_task(tasks, completed_tasks) 
+        
+        elif choice == "4":
+            task_manager.show_complete() 
+        
+        elif choice == "5":
+            task_manager.removal(tasks)
+        
+        elif choice == "6":
+            task_manager.save_tasks("tasks.json", tasks)
+            task_manager.save_tasks("completed_tasks.json", completed_tasks) 
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option. Try again.")
+    except ValueError:
+        print("❌ Please enter a valid number.")
+        continue
