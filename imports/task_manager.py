@@ -37,6 +37,15 @@ def get_valid_date():
         except ValueError:
             print("❌ Invalid date format! Please enter in MM-DD-YYYY format.")
 
+def new_valid_date(new_due_date):
+    """Prompt the user until they enter a valid date in MM-DD-YYYY."""
+    while True:
+        try:
+            valid_date = datetime.strptime(new_due_date, "%m-%d-%Y")
+            return new_due_date
+        except ValueError:
+            print("❌ Invalid date format! Please enter in MM-DD-YYYY format.")
+
 def add_task(task_list):
     """Adds a new task with details."""
     description = input("Enter task description: ").strip()
@@ -76,7 +85,8 @@ def edit_task(task_list):
         task["description"] = input(f"New description (leave blank to keep '{task['description']}'): ") or task["description"]
         
         new_due = input(f"New due date (leave blank to keep '{task['due']}'): ")
-        task["due"] = get_valid_date() if new_due else task["due"]
+        if new_due:
+            task["due"] = new_valid_date(new_due) if new_due else task["due"]
         
         new_priority = input(f"New priority (leave blank to keep '{task['priority']}'): ").lower()
         while new_priority and new_priority not in ["high", "medium", "low"]:
