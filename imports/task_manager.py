@@ -101,7 +101,7 @@ def completed_task(task_list, completed_list):
     except IndexError as e:
         print(e)
 
-def load_completed_tasks():
+def show_complete(completed_list):
     """Load completed tasks from file."""
     return load_tasks(COMPLETED_FILE)
 
