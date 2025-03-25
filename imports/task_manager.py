@@ -74,12 +74,16 @@ def edit_task(task_list):
 
         print(f"Editing task: {task['description']}")
         task["description"] = input(f"New description (leave blank to keep '{task['description']}'): ") or task["description"]
-        task["due"] = input(f"New due date (leave blank to keep '{task['due']}'): ") or task["due"]
+        
+        new_due = input(f"New due date (leave blank to keep '{task['due']}'): ")
+        task["due"] = get_valid_date() if new_due else task["due"]
+        
         new_priority = input(f"New priority (leave blank to keep '{task['priority']}'): ").lower()
         while new_priority and new_priority not in ["high", "medium", "low"]:
             print("❌ Invalid priority! Choose from high, medium, or low.")
             new_priority = input(f"New priority (leave blank to keep '{task['priority']}'): ").lower()
         task["priority"] = new_priority if new_priority else task["priority"]
+        
         task["category"] = input(f"New category (leave blank to keep '{task['category']}'): ") or task["category"]
 
         save_tasks(TASKS_FILE, task_list)  # Save after editing
