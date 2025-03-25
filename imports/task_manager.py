@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 TASKS_FILE = "tasks.json"
 COMPLETED_FILE = "completed_tasks.json"
@@ -26,11 +27,30 @@ def show_tasks(task_list):
     for i, task in enumerate(task_list, 1):
         print(f"{i}. {task['description']} (Due: {task['due']}, Priority: {task['priority']}, Category: {task['category']})")
 
+def get_valid_date():
+    """Prompt the user until they enter a valid date in MM-DD-YYYY."""
+    while True:
+        date_str= input("Enter due date (MM-DD-YYYY): ")
+        try:
+            valid_date = datetime.strptime(date_str, "%m-%d-%Y")
+            return date_str
+        except ValueError:
+            print("❌ Invalid date format! Please enter in MM-DD-YYYY format.")
+
 def add_task(task_list):
     """Adds a new task with details."""
-    description = input("Enter task description: ")
-    due = input("Enter due date (YYYY-MM-DD): ")
+    description = input("Enter task description: ").strip()
+    while not description:
+        print ("❌ Description cannot be empty!")
+        description = input("Enter task description: ").strip()
+        
+    due = get_valid_date()
+    
     priority = input("Enter priority (high, medium, low): ").lower()
+    while priority not in ["high", "medium", "low"]:
+        print("❌ Invalid priority! Choose from high, medium, or low.")
+        priority = input("Enter priority (high, medium, low): ").lower()
+        
     category = input("Enter category (work, personal, etc.): ")
 
     new_task = {
