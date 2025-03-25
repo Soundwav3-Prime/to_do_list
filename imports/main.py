@@ -26,7 +26,7 @@ while True:
         elif choice == 3:
             task_manager.completed_task(tasks, completed_tasks)
         elif choice == 4:
-            task_manager.show_complete(completed_tasks)
+            task_manager.show_complete_list(completed_tasks)
         elif choice == 5:
             task_manager.removal(tasks)
         elif choice == 6:

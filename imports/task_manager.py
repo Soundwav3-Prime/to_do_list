@@ -120,11 +120,8 @@ def completed_task(task_list, completed_list):
     except IndexError as e:
         print(e)
 
-def show_complete(completed_list):
-    """Load completed tasks from file."""
-    return load_tasks(COMPLETED_FILE)
 
-def show_complete():
+def show_complete_list(completed_list):
     """Displays the list of completed tasks."""
     done_list = load_completed_tasks()
     print("\nCompleted Tasks:")
