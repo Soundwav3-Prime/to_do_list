@@ -45,6 +45,7 @@ def new_valid_date(new_due_date):
             return new_due_date
         except ValueError:
             print("❌ Invalid date format! Please enter in MM-DD-YYYY format.")
+            new_due_date = input("Enter due date (MM-DD-YYYY): ")
 
 def add_task(task_list):
     """Adds a new task with details."""
